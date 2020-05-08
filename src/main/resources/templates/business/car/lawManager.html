@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>违法管理</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="icon" href="/favicon.ico">
+<link rel="stylesheet" href="/resources/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="/resources/css/public.css" media="all" />
+</head>
+<body class="childrenBody">
+<!-- 查询条件开始 -->
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 5px;">
+  <legend>查询条件</legend>
+</fieldset>
+<blockquote class="layui-elem-quote">
+	<form action="" method="post" id="searchFrm" lay-filter="searchFrm" class="layui-form layui-form-pane">
+		<div class="layui-form-item">
+		    <div class="layui-inline">
+		      <label class="layui-form-label">司机</label>
+		      <div class="layui-input-inline">
+		        <input type="text" name="driver"  autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		    <div class="layui-inline">
+		      <label class="layui-form-label">车牌号</label>
+		      <div class="layui-input-inline">
+		        <input type="text" name="carid"    autocomplete="off" class="layui-input">
+		      </div>
+		    </div>
+		   
+		    
+		  </div>
+		  <div class="layui-form-item">
+		      <div class="layui-input-block" style="text-align: center;">
+		      	<button type="button" class="layui-btn" lay-submit="" lay-filter="doSearch"><span class="layui-icon layui-icon-search"></span>查询</button>
+      			<button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		      </div>
+		  </div>
+	</form>
+</blockquote>
+<!-- 查询条件结束-->
+
+
+<!-- 数据表格开始 -->
+<div>
+	<table class="layui-hide" id="lawTable" lay-filter="lawTable"></table>
+	<div id="lawToolBar" style="display: none;">
+		<button type="button" lay-event="add" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-add-1"></span>添加违法</button>
+	</div>
+	
+	<div id="lawRowBar" style="display: none;">
+		<button type="button" lay-event="update" class="layui-btn layui-btn-sm"><span class="layui-icon layui-icon-edit"></span>更新</button>
+		<button type="button" lay-event="delete" class="layui-btn layui-btn-sm layui-btn-danger"><span class="layui-icon layui-icon-delete"></span>删除</button>
+		
+	</div>
+</div>
+
+
+<!-- 数据表格结束 -->
+
+
+<!-- 添加和修改的弹出层开始 -->
+<div style="display: none;padding: 5px" id="addOrUpdateDiv">
+	<form action="" method="post" class="layui-form layui-form-pane" id="dataFrm" lay-filter="dataFrm">
+ 	   <div class="layui-form-item">
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">车牌号</label>
+ 	   			<div class="layui-input-block">
+ 	   				<input type="hidden" name="id">
+ 	   				<input type="text" name="carid" lay-verify="required|carid" autocomplete="off" placeholder="请输入车牌号" class="layui-input">
+ 	   			</div>
+ 	   	</div>
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">车型</label>
+ 	   			<div class="layui-input-block">
+ 	   				<input type="hidden" name="id">
+ 	   				<input type="text" name="cartype" lay-verify="required" autocomplete="off" placeholder="请输入车型" class="layui-input">
+ 	   			</div>
+ 	   	</div>
+ 	   	
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">司机</label>
+ 	   			<div class="layui-input-block">
+ 	   				<input type="hidden" name="id">
+ 	   				<input type="text" name="driver" lay-verify="required" autocomplete="off" placeholder="请输入司机姓名" class="layui-input">
+ 	   			</div>
+ 	   	</div>
+ 	   
+ 	   </div>
+ 	   <div class="layui-form-item">
+ 	   	<div class="layui-inline">
+		      <label class="layui-form-label">违法时间</label>
+		       <div class="layui-input-block">
+           		 <input type="text" id="wftime" name="wftime" model="date"
+                timeFormat="yyyy-MM-dd HH:mm:ss" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off"
+                class="layui-input" />
+        		</div>
+		    </div>
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">违法地点</label>
+ 	   			<div class="layui-input-block">
+ 	   				<input type="hidden" name="id">
+ 	   				<input type="text" name="wfplace" lay-verify="required" autocomplete="off" placeholder="请输入违法地点" class="layui-input">
+ 	   			</div>
+ 	   	</div>
+ 	   	
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">违法内容</label>
+ 	   			<div class="layui-input-block">
+ 	   				<input type="hidden" name="id">
+ 	   				<input type="text" name="punishment" lay-verify="required" autocomplete="off" placeholder="请输入违法内容" class="layui-input">
+ 	   			</div>
+ 	   	</div>
+ 	   	
+ 	   </div>
+ 	   
+ 	   <div class="layui-form-item">
+ 	   	<div class="layui-inline">
+ 	   		<label class="layui-form-label">是否可用</label>
+ 	   			<div class="layui-input-inline">
+ 	   			<input type="radio" name="available" value="1" title="可用" checked="">
+ 	   			<input type="radio" name="available" value="0" title="不可用" >
+ 	   			</div>
+ 	   	</div>
+ 	   </div>
+ 	   <div class="layui-form-item">
+		    <div class="layui-input-block" style="text-align: center;">
+		    <button type="button" class="layui-btn" lay-submit="" lay-filter="doSubmit" id="doSubmit"><span class="layui-icon layui-icon-add-1"></span>提交</button>
+      			<button type="reset" class="layui-btn layui-btn-warm"><span class="layui-icon layui-icon-refresh-1"></span>重置</button>
+		     </div>
+ 	   </div>
+	</form>
+</div>
+<!-- 添加和修改的弹出层结束 -->
+
+
+<!-- 查看弹出层的开始 -->
+<div style="display: none;padding: 5px" id="showLawDiv">
+	<h2 id="show_title" align="center"></h2>
+	<div style="text-align: right;">
+		发布人:<span id="show_opername"></span>
+		发布时间:<span id="show_createtime"></span>
+	</div>
+	<hr>
+	<div id="show_content"></div>
+	
+</div>
+<!-- 查看弹出层的结束-->
+
+
+<script type="text/javascript" src="/resources/layui/layui.js"></script>
+<script type="text/javascript">
+	layui.use(['jquery','form','table','layer','laydate'],function(){
+		var $=layui.jquery;
+		var form=layui.form;
+		var table=layui.table;
+		var layer=layui.layer;
+		var laydate=layui.laydate;
+		//初始化时间选择器
+		laydate.render({
+			elem:'#wftime',
+			type:'datetime'
+			,done: function(value, date, endDate){
+			    console.log(value); //得到日期生成的值，如：2017-08-18
+			    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+			    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+			  }
+		});
+		
+		
+	
+		//加载 数据
+		var tableIns=table.render({
+			 elem: '#lawTable'
+		    ,url:'/law/loadAllLaw'
+		    ,toolbar: '#lawToolBar' //开启头部工具栏，并为其绑定左侧模板
+		    ,title: '违法数据表'
+		    ,height:'full-220'
+		    ,page: true
+		    ,cols: [ [
+		      {type: 'checkbox', fixed: 'left'}
+		      ,{field:'id', title:'ID',align:'center'}
+		      ,{field:'carid', title:'车牌号',align:'center'}
+		      ,{field:'cartype', title:'车型',align:'center'}
+		      ,{field:'driver', title:'司机',align:'center'}
+		      ,{field:'wftime', title:'违法时间',align:'center'}
+		      ,{field:'wfplace', title:'违法地点',align:'center'}
+		      ,{field:'punishment', title:'违法内容',align:'center'}
+		      ,{field:'available', title:'是否可用',align:'center',templet:function(d){
+		    	  return d.available==1?'<font color = blue>可用</font>':'<font color = red>不可用</font>';
+		      }}
+		      ,{fixed: 'right', title:'操作', toolbar: '#lawRowBar',align:'center'}
+		    ] ]
+		});
+		
+		//模糊查询
+		form.on("submit(doSearch)",function(data){
+			tableIns.reload({
+				where:data.field,
+				page:{
+					curr:1
+				}
+			});
+			return false;
+		});
+		
+		form.verify({
+			carid: [
+				/^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
+			,'您输入的车牌号可能不对，请仔细检查'
+			]
+			,weight:[
+				/^[0-9]*(t|kg|T|KG)$/
+			,'您输入的载重量可能有误，请仔细检查'
+			]
+		});
+		
+		//监听工具条的事件
+		table.on("toolbar(lawTable)",function(obj){
+			 switch(obj.event){
+			    case 'batchDelete':
+			     batchDelete();
+			    break;
+			    case 'add':
+			     openAddLayer();
+			    break;
+			  };
+		});
+		
+		//监听行工具条的事件
+		table.on("tool(lawTable)",function(obj){
+			  var data = obj.data; //获得当前行数据
+			 switch(obj.event){
+			    case 'update':
+			   		openUpdateLawLayer(data);
+			    break;
+			    case 'delete':
+			   		deleteLaw(data);
+			    break;
+			    
+			  };
+		});
+		
+		var mainIndex;
+		var url;
+		//打开添加的弹出层
+		function openAddLayer(){
+			mainIndex=layer.open({
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'添加违法',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					url="/law/addLaw";
+				}
+			});
+		}
+		
+		//打开修改的弹出层
+		function openUpdateLawLayer(data){
+			mainIndex=layer.open({
+				type:1,
+				content:$("#addOrUpdateDiv"),
+				area:['800px','600px'],
+				title:'修改违法',
+				success:function(){
+					$("#dataFrm")[0].reset();
+					//装载新的数据
+					form.val("dataFrm",data);
+					url="/law/updateLaw";
+				}
+			});
+		}
+		form.on("submit(doSubmit)",function(data){
+			$.post(url,data.field,function(res){
+				if(res.code==200){
+					tableIns.reload();
+				}
+				layer.msg(res.msg);
+				layer.close(mainIndex);
+				console.log(data.field);
+			})
+			return false;
+		})
+		//删除
+		function deleteLaw(data){
+			layer.confirm('你确定要删除【'+data.lawid+'】这条记录吗?', {icon: 3, title:'提示'}, function(index){
+				$.post("/law/deleteLaw",{id:data.id},function(res){
+					if(res.code==200){
+						tableIns.reload();
+					}
+					layer.msg(res.msg);
+				})	
+			   layer.close(index);
+			});
+		}
+		
+		//批量删除
+		function  batchDelete(){
+			//得到选中行
+			var checkStatus = table.checkStatus('lawTable');
+			var dataLength=checkStatus.data.length;
+			if(dataLength>0){
+				layer.confirm('你确定要删除这些违法数据吗?', {icon: 3, title:'提示'}, function(index){
+						var data=checkStatus.data; //获取选中行的数据
+						var ids="";
+						$.each(data,function(index,item){
+							if(index==0){
+								ids+="ids="+item.id;
+							}else{
+								ids+="&ids="+item.id;
+							}
+						})
+						$.post("/law/batchDeleteLaw",ids,function(res){
+							if(res.code==200){
+								tableIns.reload();
+							}
+							layer.msg(res.msg);
+						})	
+					   layer.close(index);
+					});
+				
+			}else{
+				layer.msg("请选中操作行")
+			}
+		}
+		
+		//弹出查看层
+		<!-- 
+		function showLaw(data){
+			mainIndex=layer.open({
+				type:1,
+				content:$("#showLawDiv"),
+				area:['800px','600px'],
+				title:'查看违法',
+				success:function(){
+					$("#show_lawid").html(data.lawid);
+					$("#show_lawtype").html(data.lawtype);
+					$("#show_productdate").html(data.productdate);
+					$("#show_deadweight").html(data.deadweight);
+					$("#show_driver").html(data.driver);
+				}
+			});
+		}
+		-->
+	});
+</script>
+
+</body>
+</html>
